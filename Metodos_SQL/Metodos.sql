@@ -1,5 +1,5 @@
-CREATE SCHEMA db_metodos;
-USE db_metodos;
+CREATE SCHEMA db2_metodos;
+USE db2_metodos;
 
 -- =========================
 -- TABELAS
@@ -12,7 +12,7 @@ CREATE TABLE usuario(
     email VARCHAR(80) UNIQUE
 );
 
-CREATE TABLE metodo(
+CREATE TABLE metodo_estudo(
     id_metodo INT PRIMARY KEY,
     nome_metodo VARCHAR(50) NOT NULL,
     conceito VARCHAR(300),
@@ -38,18 +38,18 @@ CREATE TABLE playlist(
 CREATE TABLE assunto(
     ID_m INT PRIMARY KEY,
     nome VARCHAR(50) UNIQUE NOT NULL,
-    disciplina VARCHAR(50) UNIQUE NOT NULL,
+    disciplina VARCHAR(50) NOT NULL,
     id_usuario INT NOT NULL,
     id_metodo INT NOT NULL,
     id_referencias INT NOT NULL,
     tempo_gasto INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (id_metodo) REFERENCES metodo(id_metodo),
+    FOREIGN KEY (id_metodo) REFERENCES metodo_estudo(id_metodo),
     FOREIGN KEY (id_referencias) REFERENCES referencias(id)
 );
 
 CREATE TABLE assunto_playlist(
-    combin INT PRIMARY KEY,
+    combinacao INT PRIMARY KEY,
     id_play INT NOT NULL,
     id_m INT NOT NULL,
     FOREIGN KEY (id_play) REFERENCES playlist(id),
@@ -67,17 +67,17 @@ INSERT INTO usuario VALUES
 (9,'Livia','senha9','livia@email.com'),
 (10,'Paulo','senha10','paulo@email.com');
 
-INSERT INTO metodo VALUES
-(1,'Pomodoro','Trabalho focado com pausas','Revisão a cada ciclo',NULL,25,5,4),
-(2,'Feynman','Explicar para aprender','Criar analogias',NULL,NULL,NULL,NULL),
-(3,'Pareto','Focar nos 20% mais relevantes','Revisão semanal',80,NULL,NULL,NULL),
-(4,'Mapas Mentais','Organização visual','Rever mapas',NULL,NULL,NULL,NULL),
-(5,'Active Recall','Puxar da memória','Revisões espaçadas',NULL,NULL,NULL,NULL),
-(6,'Flashcards','Estudo rápido','Revisão SRS',NULL,NULL,NULL,NULL),
-(7,'SQ3R','Leitura estruturada','Reler e resumir',NULL,NULL,NULL,NULL),
-(8,'Leitura Dinâmica','Aumento da velocidade','Prática guiada',NULL,NULL,NULL,NULL),
-(9,'Cornell Notes','Notas estruturadas','Resumo final',NULL,NULL,NULL,NULL),
-(10,'Repetição espaçada','Revisões longas','Aumentar intervalo',NULL,NULL,NULL,NULL);
+INSERT INTO metodo_estudo VALUES
+(1,'Pomodoro','Trabalho focado com pausas','Revisão a cada ciclo',50,25,5,4),
+(2,'Feynman','Explicar para aprender','Criar analogias',40,30,3,3),
+(3,'Pareto','Focar nos 20% mais relevantes','Revisão semanal',80,30,10,1),
+(4,'Mapas Mentais','Organização visual','Rever mapas',60,15,8,3),
+(5,'Active Recall','Puxar da memória','Revisões espaçadas',95,20,2,0),
+(6,'Flashcards','Estudo rápido','Revisão SRS',74,45,5,3),
+(7,'SQ3R','Leitura estruturada','Reler e resumir',66,10,20,6),
+(8,'Leitura Dinâmica','Aumento da velocidade','Prática guiada',93,23,6,7),
+(9,'Cornell Notes','Notas estruturadas','Resumo final',67,10,55,1),
+(10,'Repetição espaçada','Revisões longas','Aumentar intervalo',81,3,7,2);
 
 INSERT INTO referencias VALUES
 (1,'Guia Pomodoro','link1.com'),

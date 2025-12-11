@@ -1,9 +1,7 @@
 CREATE SCHEMA db2_metodos;
 USE db2_metodos;
 
--- =========================
--- TABELAS
--- =========================
+-- Tabelas
 
 CREATE TABLE usuario(
     id INT PRIMARY KEY,
@@ -55,6 +53,10 @@ CREATE TABLE assunto_playlist(
     FOREIGN KEY (id_play) REFERENCES playlist(id),
     FOREIGN KEY (id_m) REFERENCES assunto(ID_m)
 );
+
+
+-- INSERTS(povoamento do BD)
+
 INSERT INTO usuario VALUES
 (1,'Renan','senha1','renan@email.com'),
 (2,'Ana','senha2','ana@email.com'),

@@ -55,3 +55,74 @@ CREATE TABLE assunto_playlist(
     FOREIGN KEY (id_play) REFERENCES playlist(id),
     FOREIGN KEY (id_m) REFERENCES assunto(ID_m)
 );
+INSERT INTO usuario VALUES
+(1,'Renan','senha1','renan@email.com'),
+(2,'Ana','senha2','ana@email.com'),
+(3,'Lucas','senha3','lucas@email.com'),
+(4,'Beatriz','senha4','bia@email.com'),
+(5,'Marcos','senha5','marcos@email.com'),
+(6,'João','senha6','joao@email.com'),
+(7,'Clara','senha7','clara@email.com'),
+(8,'Rafael','senha8','rafa@email.com'),
+(9,'Livia','senha9','livia@email.com'),
+(10,'Paulo','senha10','paulo@email.com');
+
+INSERT INTO metodo VALUES
+(1,'Pomodoro','Trabalho focado com pausas','Revisão a cada ciclo',NULL,25,5,4),
+(2,'Feynman','Explicar para aprender','Criar analogias',NULL,NULL,NULL,NULL),
+(3,'Pareto','Focar nos 20% mais relevantes','Revisão semanal',80,NULL,NULL,NULL),
+(4,'Mapas Mentais','Organização visual','Rever mapas',NULL,NULL,NULL,NULL),
+(5,'Active Recall','Puxar da memória','Revisões espaçadas',NULL,NULL,NULL,NULL),
+(6,'Flashcards','Estudo rápido','Revisão SRS',NULL,NULL,NULL,NULL),
+(7,'SQ3R','Leitura estruturada','Reler e resumir',NULL,NULL,NULL,NULL),
+(8,'Leitura Dinâmica','Aumento da velocidade','Prática guiada',NULL,NULL,NULL,NULL),
+(9,'Cornell Notes','Notas estruturadas','Resumo final',NULL,NULL,NULL,NULL),
+(10,'Repetição espaçada','Revisões longas','Aumentar intervalo',NULL,NULL,NULL,NULL);
+
+INSERT INTO referencias VALUES
+(1,'Guia Pomodoro','link1.com'),
+(2,'Técnica Feynman','link2.com'),
+(3,'Regra Pareto','link3.com'),
+(4,'Mind Maps','link4.com'),
+(5,'Active Recall Explicado','link5.com'),
+(6,'Flashcards Anki','link6.com'),
+(7,'Método SQ3R','link7.com'),
+(8,'Curso Leitura Dinâmica','link8.com'),
+(9,'Cornell Notes Tutorial','link9.com'),
+(10,'Spaced Repetition','link10.com');
+
+INSERT INTO playlist VALUES
+(1,'Pomodoro 25/5','p1.com'),
+(2,'Foco Total','p2.com'),
+(3,'Músicas de Estudo','p3.com'),
+(4,'Lo-fi Relax','p4.com'),
+(5,'Barulho de chuva','p5.com'),
+(6,'Instrumental','p6.com'),
+(7,'Clássico','p7.com'),
+(8,'Deep Focus','p8.com'),
+(9,'Neurobeats','p9.com'),
+(10,'Ambient Study','p10.com');
+
+INSERT INTO assunto VALUES
+(1,'Matemática Básica','Matemática',1,1,1,120),
+(2,'Cálculo I','Matemática',2,2,2,90),
+(3,'História Geral','História',3,3,3,80),
+(4,'Física I','Física',4,4,4,150),
+(5,'Química','Química',5,5,5,200),
+(6,'Biologia Celular','Biologia',6,6,6,110),
+(7,'Programação','Computação',7,7,7,300),
+(8,'Banco de Dados','Computação',8,8,8,250),
+(9,'Inglês','Idiomas',9,9,9,100),
+(10,'Geografia','Geografia',10,10,10,130);
+
+INSERT INTO assunto_playlist VALUES
+(1,1,1),
+(2,2,2),
+(3,3,3),
+(4,4,4),
+(5,5,5),
+(6,6,6),
+(7,7,7),
+(8,8,8),
+(9,9,9),
+(10,10,10);

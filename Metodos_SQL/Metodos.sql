@@ -1,81 +1,57 @@
-create schema db_metodos;
-use db_metodos;
+CREATE SCHEMA db_metodos;
+USE db_metodos;
 
-create table usuario(
-    id int primary key,
-    nome varchar(30) not null,
-    senha varchar(15) not null,
-    email varchar(30) unique not null
+-- =========================
+-- TABELAS
+-- =========================
+
+CREATE TABLE usuario(
+    id INT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    email VARCHAR(80) UNIQUE
 );
 
-create table metodo(
-    id int primary key,
-    nome varchar(30) not null
+CREATE TABLE metodo(
+    id_metodo INT PRIMARY KEY,
+    nome_metodo VARCHAR(50) NOT NULL,
+    conceito VARCHAR(300),
+    estrategia_revisao VARCHAR(150),
+    percentual_foco FLOAT,
+    tempo_trabalho INT,
+    tempo_descanso INT,
+    ciclos INT
 );
 
-create table referencias(
-    id int primary key,
-    nome varchar(30) not null,
-    referencias_link varchar(30) unique not null
+CREATE TABLE referencias(
+    id INT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    referencias_link VARCHAR(150) UNIQUE NOT NULL
 );
 
-create table playlist(
-    id int primary key,
-    nome varchar(30) unique not null,
-    link_playlist varchar(30) not null
+CREATE TABLE playlist(
+    id INT PRIMARY KEY,
+    nome VARCHAR(50) UNIQUE NOT NULL,
+    link_p VARCHAR(150) NOT NULL
 );
 
-create table Assunto(
-    ID_m int primary key,
-    nome varchar(30) unique not null,
-    disciplina varchar(30) unique not null,
-    id_usuario int not null,
-    foreign key (id_usuario) references usuario(id)
+CREATE TABLE assunto(
+    ID_m INT PRIMARY KEY,
+    nome VARCHAR(50) UNIQUE NOT NULL,
+    disciplina VARCHAR(50) UNIQUE NOT NULL,
+    id_usuario INT NOT NULL,
+    id_metodo INT NOT NULL,
+    id_referencias INT NOT NULL,
+    tempo_gasto INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (id_metodo) REFERENCES metodo(id_metodo),
+    FOREIGN KEY (id_referencias) REFERENCES referencias(id)
 );
 
-create table assunto_metodo(
-    id_assunto int not null,
-    id_metodo int not null,
-    primary key (id_assunto, id_metodo),
-    foreign key (id_assunto) references Assunto(ID_m),
-    foreign key (id_metodo) references metodo(id)
-);
-
-create table assunto_referencias(
-    id_assunto int not null,
-    id_referencia int not null,
-    primary key (id_assunto, id_referencia),
-    foreign key (id_assunto) references Assunto(ID_m),
-    foreign key (id_referencia) references referencias(id)
-);
-
-create table assunto_playlist(
-    id_assunto int not null,
-    id_playlist int not null,
-    primary key (id_assunto, id_playlist),
-    foreign key (id_assunto) references Assunto(ID_m),
-    foreign key (id_playlist) references playlist(id)
-);
-
-create table pareto(
-    id_metodo int primary key,
-    percentual_foco float not null,
-    impacto varchar(30) not null,
-    foreign key (id_metodo) references metodo(id)
-);
-
-create table pomodoro(
-    id_metodo int primary key,
-    tempo_trabalho int not null,
-    tempo_descanso int not null,
-    ciclos int not null,
-    foreign key (id_metodo) references metodo(id)
-);
-
-create table feyn(
-    id_metodo int primary key,
-    conceito varchar(300),
-    modo_explicacao varchar(75),
-    estrategia_revisao int, --carol, é inteiro porque existem passos da estrategia já numerados.
-    foreign key (id_metodo) references metodo(id)
+CREATE TABLE assunto_playlist(
+    combin INT PRIMARY KEY,
+    id_play INT NOT NULL,
+    id_m INT NOT NULL,
+    FOREIGN KEY (id_play) REFERENCES playlist(id),
+    FOREIGN KEY (id_m) REFERENCES assunto(ID_m)
 );

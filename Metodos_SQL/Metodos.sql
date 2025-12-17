@@ -1,13 +1,16 @@
+
 CREATE SCHEMA db2_metodos;
 USE db2_metodos;
 
--- Tabelas
+-- =====================
+-- TABELAS
+-- =====================
 
 CREATE TABLE usuario(
     id INT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     senha VARCHAR(50) NOT NULL,
-    email VARCHAR(80) UNIQUE
+    email VARCHAR(80) UNIQUE NOT NULL
 );
 
 CREATE TABLE metodo_estudo(
@@ -34,15 +37,15 @@ CREATE TABLE playlist(
 );
 
 CREATE TABLE assunto(
-    ID_m INT PRIMARY KEY,
-    nome VARCHAR(50) UNIQUE NOT NULL,
+    id_m INT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
     disciplina VARCHAR(50) NOT NULL,
     id_usuario INT NOT NULL,
     id_metodo INT NOT NULL,
     id_referencias INT NOT NULL,
     tempo_gasto INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (id_metodo) REFERENCES metodo(id_metodo),
+    FOREIGN KEY (id_metodo) REFERENCES metodo_estudo(id_metodo),
     FOREIGN KEY (id_referencias) REFERENCES referencias(id)
 );
 
@@ -51,10 +54,12 @@ CREATE TABLE assunto_playlist(
     id_play INT NOT NULL,
     id_m INT NOT NULL,
     FOREIGN KEY (id_play) REFERENCES playlist(id),
-    FOREIGN KEY (id_m) REFERENCES assunto(ID_m)
+    FOREIGN KEY (id_m) REFERENCES assunto(id_m)
 );
 
--- Inserts de dados
+-- =====================
+-- POVOAMENTO
+-- =====================
 
 INSERT INTO usuario VALUES
 (1,'Renan','senha1','renan@email.com'),
@@ -68,29 +73,24 @@ INSERT INTO usuario VALUES
 (9,'Livia','senha9','livia@email.com'),
 (10,'Paulo','senha10','paulo@email.com');
 
-INSERT INTO metodo VALUES
+-- SOMENTE 3 MÉTODOS
+
+INSERT INTO metodo_estudo VALUES
 (1,'Pomodoro','Trabalho focado com pausas','Revisão a cada ciclo',NULL,25,5,4),
 (2,'Feynman','Explicar para aprender','Criar analogias',NULL,NULL,NULL,NULL),
-(3,'Pareto','Focar nos 20% mais relevantes','Revisão semanal',80,NULL,NULL,NULL),
-(4,'Mapas Mentais','Organização visual','Rever mapas',NULL,NULL,NULL,NULL),
-(5,'Active Recall','Puxar da memória','Revisões espaçadas',NULL,NULL,NULL,NULL),
-(6,'Flashcards','Estudo rápido','Revisão SRS',NULL,NULL,NULL,NULL),
-(7,'SQ3R','Leitura estruturada','Reler e resumir',NULL,NULL,NULL,NULL),
-(8,'Leitura Dinâmica','Aumento da velocidade','Prática guiada',NULL,NULL,NULL,NULL),
-(9,'Cornell Notes','Notas estruturadas','Resumo final',NULL,NULL,NULL,NULL),
-(10,'Repetição espaçada','Revisões longas','Aumentar intervalo',NULL,NULL,NULL,NULL);
+(3,'Pareto','Focar nos 20% mais relevantes','Revisão semanal',80,NULL,NULL,NULL);
 
 INSERT INTO referencias VALUES
 (1,'Guia Pomodoro','link1.com'),
 (2,'Técnica Feynman','link2.com'),
 (3,'Regra Pareto','link3.com'),
-(4,'Mind Maps','link4.com'),
-(5,'Active Recall Explicado','link5.com'),
-(6,'Flashcards Anki','link6.com'),
-(7,'Método SQ3R','link7.com'),
-(8,'Curso Leitura Dinâmica','link8.com'),
-(9,'Cornell Notes Tutorial','link9.com'),
-(10,'Spaced Repetition','link10.com');
+(4,'Estudo Concentrado','link4.com'),
+(5,'Aprendizado Ativo','link5.com'),
+(6,'Organização de Estudos','link6.com'),
+(7,'Planejamento de Tempo','link7.com'),
+(8,'Rotina de Estudos','link8.com'),
+(9,'Foco e Produtividade','link9.com'),
+(10,'Revisão Eficiente','link10.com');
 
 INSERT INTO playlist VALUES
 (1,'Pomodoro 25/5','p1.com'),
@@ -104,27 +104,35 @@ INSERT INTO playlist VALUES
 (9,'Neurobeats','p9.com'),
 (10,'Ambient Study','p10.com');
 
+-- ASSUNTOS REPETINDO OS MESMOS MÉTODOS (1xN)
+
 INSERT INTO assunto VALUES
 (1,'Matemática Básica','Matemática',1,1,1,120),
-(2,'Cálculo I','Matemática',2,2,2,90),
-(3,'História Geral','História',3,3,3,80),
-(4,'Física I','Física',4,4,4,150),
-(5,'Química','Química',5,5,5,200),
-(6,'Biologia Celular','Biologia',6,6,6,110),
-(7,'Programação','Computação',7,7,7,300),
-(8,'Banco de Dados','Computação',8,8,8,250),
-(9,'Inglês','Idiomas',9,9,9,100),
-(10,'Geografia','Geografia',10,10,10,130);
+(2,'Cálculo I','Matemática',1,1,1,90),
+(3,'Álgebra','Matemática',2,1,4,80),
+(4,'Física I','Física',3,2,2,150),
+(5,'Física II','Física',3,2,5,200),
+(6,'Programação I','Computação',4,3,3,300),
+(7,'Programação II','Computação',4,3,6,280),
+(8,'Banco de Dados','Computação',5,3,7,250),
+(9,'História Geral','História',6,2,8,110),
+(10,'Geografia','Geografia',7,1,9,130);
+
+-- NxN: ASSUNTO ↔ PLAYLIST
 
 INSERT INTO assunto_playlist VALUES
-(1,10,1),
-(2,2,8),
-(3,3,6),
-(4,5,2),
-(5,7,8),
-(6,2,1),
-(7,5,7),
-(8,9,1),
-(9,3,4),
-(10,1,10),
-(11,3,8);
+(1,1,1),
+(2,1,2),
+(3,2,1),
+(4,2,6),
+(5,3,6),
+(6,4,4),
+(7,5,4),
+(8,6,3),
+(9,6,7),
+(10,7,7),
+(11,8,2),
+(12,8,3),
+(13,9,5),
+(14,10,1),
+(15,10,5);

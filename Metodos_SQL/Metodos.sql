@@ -136,3 +136,69 @@ INSERT INTO assunto_playlist VALUES
 (13,9,5),
 (14,10,1),
 (15,10,5);
+
+select * from assunto;
+select * from metodo_estudo;
+
+-- Nomes dos 3 assuntos com tempo gasto de aula menor que 125 em ordem do menor para o maior:
+select nome from assunto where tempo_gasto < 125 ORDER BY tempo_gasto ASC LIMIT 3;
+
+
+-- Nomes dos métodos não repetidos que possuem o tempo de trabalho registrado:
+select distinct(nome_metodo) from metodo_estudo where tempo_trabalho is not null;
+
+
+-- Nome dos usuários onde o tempo gasto de suas matérias seje maior ou igual a 120, porém entre 80 e 150
+select nome from usuario where id in(select id_usuario from assunto where tempo_gasto >= 120 and tempo_gasto between 80 and 150);
+
+-- Quais usuários fazem uso de métodos de estudo com tempo de trabalho menor ou igual a 30 minutos, diferentes do método Pomodoro e que possuam conceito cadastrado?
+SELECT nome FROM usuario WHERE id IN (SELECT id_usuario FROM assunto WHERE id_metodo IN (SELECT id_metodo FROM metodo_estudo WHERE tempo_trabalho <= 30 AND nome_metodo <> 'Pomodoro' AND conceito IS NOT NULL));
+
+-- Qual o nome da primeira pessoa em ordem alfabética ao contrário que aprende Matemática?
+SELECT nome
+FROM usuario
+WHERE id IN (
+    SELECT id_usuario
+    FROM assunto
+    WHERE disciplina = 'Matemática'
+)
+ORDER BY nome DESC
+LIMIT 1;
+
+-- Quantos usuários usam o método Pomodoro com um tempo de estudo ativo maior que 25 minutos?
+SELECT COUNT(*) 
+FROM usuario 
+WHERE id 
+IN (SELECT id_usuario 
+FROM assunto 
+WHERE tempo_gasto > 25 and id_metodo = 1);
+
+-- Quais são os nomes e os e-mails dos usuários que estudaram pelo menos um assunto e cujo tempo total de estudo é maior que 200 minutos?
+SELECT 
+    u.nome,
+    u.email
+FROM usuario u
+INNER JOIN assunto a
+    ON u.id = a.id_usuario
+GROUP BY u.id, u.nome, u.email
+HAVING SUM(a.tempo_gasto) > 200
+ORDER BY u.nome;
+
+-- Quais usuários estudaram assuntos cujo tempo gasto foi menor ou igual a 120 minutos, que não pertencem à disciplina de Matemática e que utilizaram métodos de estudo diferentes do método Pomodoro?
+
+SELECT nome
+FROM usuario
+WHERE id IN (
+    SELECT id_usuario
+    FROM assunto
+    WHERE tempo_gasto <= 120
+      AND NOT disciplina = 'Matemática'
+      AND id_metodo IN (
+          SELECT id_metodo
+          FROM metodo_estudo
+          WHERE nome_metodo <> 'Pomodoro'
+      )
+);
+
+-- Quais métodos de estudo não possuem tempo de trabalho definido ou não possuem tempo de descanso definido?
+SELECT nome_metodo FROM metodo_estudo WHERE tempo_trabalho IS NULL OR tempo_descanso IS NULL;
